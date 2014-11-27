@@ -19,7 +19,7 @@ clean :
 	@echo "Cleaning..."
 	@echo "Removing temporary (*~) files..."
 	@rm -rf *~
-	@rm -rf ./src/*~
+	@rm -rf ./src/Markov/*~
 	@echo "Removing .class files..."
 	@rm -rf ./bin/Markov/*.class
 	@rm -rf $(JAR)
