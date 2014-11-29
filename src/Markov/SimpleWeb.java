@@ -8,7 +8,7 @@ public class SimpleWeb {
     public SimpleWeb(int max) {
 	nodeList=new ArrayList<Node>(max);
 	for (int i =0; i<max;i++) 
-	    nodeList.add(new Node());
+	    nodeList.add(new Node(i));
 	maxNodes=max;
     }
 
@@ -29,11 +29,12 @@ public class SimpleWeb {
 
     public void showTransitionTable() {
 	for (Node n : nodeList) {
-	    String s=("Outgoing arcs from node ["+n.getID()+"]");
-	    for (Arc a : n.getOutArcs())
-		s+=" "+a.getTail();
-	    System.out.println(s);
+	    String s=("Outgoing arcs from node ["+n.getID()+"] |");
+	    for (Arc a : n.getOutArcs()) {
+		String pro = String.format("%.2f", a.getProba());
+		s+=" "+a.getTail()+" ("+pro+") |";
+	    }
+	    System.out.println(s.substring(0, (s.length()-2)));
 	}
-
     }
 }

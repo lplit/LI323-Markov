@@ -15,7 +15,7 @@ public class NanoWeb extends SimpleWeb {
 	n1.addArc(3,9);
 	n1.addArc(4,2);
 	n1.addArc(4,5);
-	n1.addArc(4,6);
+	n1.addArc(4,7);
 	n1.addArc(5,6);
 	n1.addArc(6,5);
 	n1.addArc(6,7);

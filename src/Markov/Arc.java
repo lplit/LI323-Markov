@@ -1,26 +1,19 @@
 package Markov;
 
 public class Arc {
-
     private int head; // Identifies start node
     private int tail; // Identifies end node
-    private int id; // Arc's ID
     private double proba; // Probability of the arc
-    private static int cnt=0; // Total count of arcs
 
     /** Constructors **/
     public Arc() {
-	cnt++;
 	head=-1;
 	tail=-1;
-	id=cnt;
     }
 
     public Arc(int h, int t) {
-	cnt++;
 	head=h;
 	tail=t;
-	id=cnt;
     }
     
     public void updateProbas(int nb) {
@@ -29,10 +22,8 @@ public class Arc {
     }
 
     /** Getters **/
+    public double getProba() {return proba;}
     public int getHead() { return head; }
     public int getTail() { return tail; }
-    public int getID() { return id; }
-    public String toString() {return ("ID: "+id+" head: "+head+" tail: "+tail); }
-
-
+    public String toString() {return ("Head: "+head+" tail: "+tail+" proba: "+proba); }
 }
