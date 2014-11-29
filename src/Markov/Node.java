@@ -5,21 +5,19 @@ public class Node {
     private ArrayList<Arc> inArcs;
     private ArrayList<Arc> outArcs;
     private int id;
-    private static int cnt;
+    private int nbOutgoing;
 
     /** Constructors **/
     public Node() {
 	inArcs=null;
 	outArcs=null;
 	id=-1;
-	cnt=0;
     }
 
     public Node(ArrayList<Arc> in, ArrayList<Arc> out, int i) {
 	inArcs=in;
 	outArcs=out;
 	id=i;
-	cnt=0;
     }
 
     public void addInArc(Arc a) {
@@ -32,17 +30,19 @@ public class Node {
 	int id = a.getID();
 	outArcs.ensureCapacity(id);
 	outArcs.add(id, a);
-	cnt++;
+	nbOutgoing++;
+    }
+
+    public  void updateProbas() {
+	for (Arc a : outArcs) 
+	    a.updateProbas(nbOutgoing);
     }
 
     /** Getters **/
-    public Arc getOutArcID(int ind) {
-	return outArcs.get(ind);
-    }
-
-    public Arc getInArcID(int ind) {
-	return inArcs.get(ind);
-    }
+    public Arc getOutArcID(int ind) { return outArcs.get(ind);}
+    public Arc getInArcID(int ind) { return inArcs.get(ind);}
+    public ArrayList<Arc> getOutArcs() { return outArcs;}
+    public int getID() { return id;}
 
     public String toString() { 
 	String ret=""+id+"\nINCOMING ARCS";

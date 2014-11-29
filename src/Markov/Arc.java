@@ -10,25 +10,29 @@ public class Arc {
 
     /** Constructors **/
     public Arc() {
+	cnt++;
 	head=-1;
 	tail=-1;
-	id=-1;
-	proba=0;
-	cnt++;
+	id=cnt;
     }
 
-    public Arc(int h, int t, int i) {
+    public Arc(int h, int t) {
+	cnt++;
 	head=h;
 	tail=t;
-	id=i;
-	cnt++;
+	id=cnt;
     }
-
+    
+    public void updateProbas(int nb) {
+	if (nb==0) proba=0;
+	else proba=1.0/nb;
+    }
 
     /** Getters **/
     public int getHead() { return head; }
     public int getTail() { return tail; }
     public int getID() { return id; }
     public String toString() {return ("ID: "+id+" head: "+head+" tail: "+tail); }
-    
+
+
 }
