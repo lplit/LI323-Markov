@@ -1,15 +1,20 @@
 SRC = ./src/Markov/*.java
 JAR = stat.Markov-LeGoff-Rudek.jar
+BIN = ./bin/Markov/*.class
 
-run : all 
+run : $(BIN)
 	@echo "Running..."
 	@java -cp ./bin Markov.Main
 
-all : $(SRC)
+all : $(BIN)
 	@echo "Compiling..."
 	@javac -d ./bin $(SRC)
 
-nano : all
+$(BIN) : $(SRC)
+	@echo "Recompilation required. Recompiling..."
+	@javac -d ./bin $(SRC)
+
+nano : $(BIN)
 	@echo "Running..."
 	@java -cp ./bin Markov.NanoWeb
 
