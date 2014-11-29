@@ -32,6 +32,7 @@ public class Node {
     public Arc getOutArcID(int ind) { return outArcs.get(ind);}
     public Arc getInArcID(int ind) { return inArcs.get(ind);}
     public ArrayList<Arc> getOutArcs() { return outArcs;}
+    public ArrayList<Arc> getInArcs() { return inArcs;}    
     public int getID() { return id;}
 
     public String toString() { 

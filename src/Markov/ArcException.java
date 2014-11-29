@@ -1,8 +1,10 @@
 package Markov;
 
 public class ArcException extends Exception {
-    public ArcException() {
+    public ArcException(Arc a) {
 	super();
-	System.out.println("This arc exists already!");
+	int h= a.getHead();
+	int t= a.getTail();
+	System.out.println("[ArcException] Arc "+h+"->"+t+" exists already!");
     }
 }

@@ -15,6 +15,16 @@ public class Arc {
 	head=h;
 	tail=t;
     }
+
+    public boolean equals(Object b) {
+	if (b instanceof Arc) {
+	    Arc a = (Arc) b;
+	    int aT=a.getTail();
+	    int aH=a.getHead();
+	    if (head==aH && tail==aT) return true;
+	    else return false;
+	} else return false;
+    }
     
     public void updateProbas(int nb) {
 	if (nb==0) proba=0;
