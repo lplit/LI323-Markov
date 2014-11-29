@@ -6,7 +6,7 @@ public class Arc {
     private int tail; // Identifies end node
     private int id; // Arc's ID
     private double proba; // Probability of the arc
-    private static int cnt=0;
+    private static int cnt=0; // Total count of arcs
 
     /** Constructors **/
     public Arc() {

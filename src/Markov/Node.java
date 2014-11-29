@@ -6,18 +6,20 @@ public class Node {
     private ArrayList<Arc> outArcs;
     private int id;
     private int nbOutgoing;
+    private int cnt=0;
 
     /** Constructors **/
     public Node() {
-	inArcs=null;
-	outArcs=null;
-	id=-1;
+	inArcs=new ArrayList<Arc>();
+	outArcs=new ArrayList<Arc>();
+	id=cnt++;
+	System.out.println("Created new Node #"+id);
     }
 
-    public Node(ArrayList<Arc> in, ArrayList<Arc> out, int i) {
+    public Node(ArrayList<Arc> in, ArrayList<Arc> out) {
 	inArcs=in;
 	outArcs=out;
-	id=i;
+	id=cnt++;
     }
 
     public void addInArc(Arc a) {

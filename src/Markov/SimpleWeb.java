@@ -6,16 +6,20 @@ public class SimpleWeb {
     public static int maxNodes;
 
     public SimpleWeb(int max) {
-	nodeList=new ArrayList<Node>();
+	nodeList=new ArrayList<Node>(max);
+	for (int i =0; i<max;i++) 
+	    nodeList.add(new Node());
 	maxNodes=max;
     }
 
     public void addArc(int head, int tail) {
-	Arc a = new Arc(head, tail);
-	Node out = nodeList.get(head);
-	Node in = nodeList.get(tail);
-	out.addOutArc(a);
-	in.addInArc(a);
+	if (head < maxNodes && tail < maxNodes) {
+	    Arc a = new Arc(head, tail);
+	    Node out = nodeList.get(head);
+	    Node in = nodeList.get(tail);
+	    out.addOutArc(a);
+	    in.addInArc(a);
+	}
     }
 
     public void updateProbas() {
@@ -25,8 +29,11 @@ public class SimpleWeb {
 
     public void showTransitionTable() {
 	for (Node n : nodeList) {
-	    String cur=("Node "+n.getID());
+	    String s=("Node "+n.getID());
 	    for (Arc a : n.getOutArcs())
+		s+=a.getTail()+" ";
+	    System.out.println(s);
 	}
+
     }
 }
