@@ -9,7 +9,7 @@ all : $(SRC)
 	@echo "Compiling..."
 	@javac -d ./bin $(SRC)
 
-nano : $(SRC)	
+nano : all
 	@echo "Running..."
 	@java -cp ./bin Markov.NanoWeb
 

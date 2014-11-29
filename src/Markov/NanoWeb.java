@@ -25,7 +25,7 @@ public class NanoWeb extends SimpleWeb {
     }
 
     public static void main (String[] args) {
-	NanoWeb n = nanoWeb1();
+	NanoWeb n = NanoWeb.nanoWeb1();
 	n.updateProbas();
 	n.showTransitionTable();
     }

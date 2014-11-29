@@ -29,9 +29,9 @@ public class SimpleWeb {
 
     public void showTransitionTable() {
 	for (Node n : nodeList) {
-	    String s=("Node "+n.getID());
+	    String s=("Outgoing arcs from node ["+n.getID()+"]");
 	    for (Arc a : n.getOutArcs())
-		s+=a.getTail()+" ";
+		s+=" "+a.getTail();
 	    System.out.println(s);
 	}
 

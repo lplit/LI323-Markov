@@ -6,7 +6,7 @@ public class Node {
     private ArrayList<Arc> outArcs;
     private int id;
     private int nbOutgoing;
-    private int cnt=0;
+    private static int cnt=0;
 
     /** Constructors **/
     public Node() {
@@ -24,14 +24,12 @@ public class Node {
 
     public void addInArc(Arc a) {
 	int id = a.getID();
-	inArcs.ensureCapacity(id);
-	inArcs.add(id, a);
+	inArcs.add(a);
     }
 
     public void addOutArc(Arc a) {
 	int id = a.getID();
-	outArcs.ensureCapacity(id);
-	outArcs.add(id, a);
+	outArcs.add(a);
 	nbOutgoing++;
     }
 
