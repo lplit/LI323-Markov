@@ -18,27 +18,29 @@ public class SimpleWeb {
 		Arc a = new Arc(head, tail);
 		contains(a);
 		Node out = nodeList.get(head);
-		Node in = nodeList.get(tail);
 		out.addOutArc(a);
-		in.addInArc(a);
 		updateProbas();
-	    } catch (ArcException e) {
-	    }
+	    } catch (ArcException e) { }
 	}
     }
-	
+    
     public void updateProbas() {
 	for (Node n : nodeList)
 	    n.updateProbas();
     }
     
+    // Checks if node is present in nodeList
     public void contains(Arc a) throws ArcException {
 	for (Node n : nodeList) 
-	    if ( (n.getOutArcs().contains(a)) || (n.getInArcs().contains(a))) {
+	    if (n.getOutArcs().contains(a)) {
 		throw new ArcException(a);
 	    }
     }
- void showTransitionTable() {
+    
+    // Prints outgoing arcs from each Node, as such, with the probability for that arc
+    // as such: Outgoing arcs from node [0] | 1 (0.87). Which means that there exists
+    // an arc between nodes 0 and 1, with probability of 0.87.
+    void showTransitionTable() {
 	for (Node n : nodeList) {
 	    String s=("Outgoing arcs from node ["+n.getID()+"] |");
 	    for (Arc a : n.getOutArcs()) {
@@ -46,6 +48,16 @@ public class SimpleWeb {
 		s+=" "+a.getTail()+" ("+pro+") |";
 	    }
 	    System.out.println(s.substring(0, (s.length()-2)));
+	}
+    }
+
+    public Node getNode(int i) {
+	try {
+	    return nodeList.get(i);
+	} catch (IndexOutOfBoundsException e) {
+	    System.out.println("[getNode] Index "+i+" not available.");
+	} finally {
+	    return new Node(-1);
 	}
     }
 }

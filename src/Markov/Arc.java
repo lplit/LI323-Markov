@@ -1,8 +1,9 @@
 package Markov;
 
 public class Arc {
-    private int head; // Identifies start node
-    private int tail; // Identifies end node
+    private int 
+	head, // Identifies start node
+	tail; // Identifies end node
     private double proba; // Probability of the arc
 
     /** Constructors **/

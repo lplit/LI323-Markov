@@ -55,14 +55,14 @@ public class NanoWeb extends SimpleWeb {
 	n1.addArc(6,7);
 	n1.addArc(7,8);
 	n1.addArc(8,7);
-	n1.addArc(8,7);
+	n1.addArc(8,7); // Here for the sake of testing the exceptions behaviour
 	return n1;
     }
 
     public static void main (String[] args) {
 	System.out.println("\n\nnanoWeb1");
 	NanoWeb n = NanoWeb.nanoWeb1();
-	n.updateProbas();
+	n.updateProbas(); // Redundant as probas get updated with every addArc call
 	n.showTransitionTable();
 	System.out.println("\n\nnanoWeb2:");
 	NanoWeb n2 = NanoWeb.nanoWeb2();
