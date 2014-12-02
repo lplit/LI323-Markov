@@ -2,6 +2,8 @@ package Markov;
 
 public class Main {
     public static void main(String[] args) {
-	System.out.println("WADDUP");
+	SimpleWeb w = new SimpleWeb(10);
+	Internaute bob = new Internaute(w);
+	
     }
 }

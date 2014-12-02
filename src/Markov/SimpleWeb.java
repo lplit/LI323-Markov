@@ -37,7 +37,7 @@ public class SimpleWeb {
 	    }
     }
     
-    // Prints outgoing arcs from each Node, as such, with the probability for that arc
+    // Prints outgoing arcs from each Node, with the probability for that arc
     // as such: Outgoing arcs from node [0] | 1 (0.87). Which means that there exists
     // an arc between nodes 0 and 1, with probability of 0.87.
     void showTransitionTable() {
@@ -51,12 +51,15 @@ public class SimpleWeb {
 	}
     }
 
+    public void printTransitionMatrix() {
+	
+    }
+
     public Node getNode(int i) {
 	try {
 	    return nodeList.get(i);
 	} catch (IndexOutOfBoundsException e) {
 	    System.out.println("[getNode] Index "+i+" not available.");
-	} finally {
 	    return new Node(-1);
 	}
     }
