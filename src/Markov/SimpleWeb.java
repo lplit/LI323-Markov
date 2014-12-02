@@ -47,8 +47,9 @@ public class SimpleWeb {
 	}
 	Random r = new Random(); 
 	int index = r.nextInt(outNodes.length);
-	System.out.println("outNodes size "+outNodes.length+" index "+index);
-	return nodeList.get(outNodes[index]);
+	Node outNode=nodeList.get(outNodes[index]);
+	System.out.println(n.getID()+"->"+outNode.getID());
+	return outNode;
     }
     
     // Prints outgoing arcs from each Node, with the probability for that arc
