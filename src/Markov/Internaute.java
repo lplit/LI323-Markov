@@ -59,11 +59,11 @@ public class Internaute {
     
     public void walk(int n, double e) {
 	int st=0;
-	double epsiT=999999., epsiT1=999999., epsi=999999.;
+	double epsiT=99., epsiT1=99., epsi=999999.;
 	boolean write=false;
 	if (w!=null) write=true;
 	
-	while (steps++ < n || epsi>e) {
+	while (steps++ < n && epsi>e && currentNode!=null) {
 	    /** Epsilon calc
 	    epsiT1=epsiT;
 	    epsiT=0 ; // Difference between current % and theorethical
@@ -77,16 +77,20 @@ public class Internaute {
 	    if (diff<epsi) epsi=diff;
 	    **/
 	    // Statistically pick way to go
-	    
+	    // System.out.println(currentNode);
+	    currentNode=web.getRandomOutNodeFrom(currentNode);
+	    System.out.println("Step: "+steps);
 	    updateFreq();
 
 	}
-	try {
+	System.out.print("Walk done. Attempting to write to file...");
+	/**	try {
 	    w.close();
+	    System.out.println("\tOK");
 	} catch (IOException es) {
-	    System.err.println("Error closing file :");
+	    System.err.println("\tFAIL");
 	    es.printStackTrace();
-	}
+	    }*/
     }
 
     public void showFrequences() {

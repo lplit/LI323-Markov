@@ -17,6 +17,15 @@ public class Node {
 	nbOutgoing++; 
     }
 
+    public int[] getOutNodesIDs() {
+	int[] ret = new int[outArcs.size()];
+	for (int i = 0; i< ret.length ; i++) {
+	    Arc a = outArcs.get(i);
+	    ret[i] = a.getTail();
+	}
+	return ret;
+    }
+
     public  void updateProbas() {
 	for (Arc a : outArcs) 
 	    a.updateProbas(nbOutgoing); 
@@ -28,10 +37,9 @@ public class Node {
     public int getID() { return id;}
 
     public String toString() { 
-	String ret="\nOUTGOING ARCS\n";
+	String ret=("Node "+id)+" ";
 	for (Arc a:outArcs) 
-	    ret+=a.toString();
-	ret+="*******\n**END**\n*******";
+	    ret+=a.toString()+"\n";
      	return ret;
     }
 }

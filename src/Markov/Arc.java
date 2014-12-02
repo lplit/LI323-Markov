@@ -26,7 +26,7 @@ public class Arc {
 	    else return false;
 	} else return false;
     }
-    
+
     public void updateProbas(int nb) {
 	if (nb==0) proba=0;
 	else proba=1.0/nb;

@@ -1,5 +1,6 @@
 package Markov;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class SimpleWeb {
     ArrayList<Node> nodeList;
@@ -35,6 +36,19 @@ public class SimpleWeb {
 	    if (n.getOutArcs().contains(a)) {
 		throw new ArcException(a);
 	    }
+    }
+
+    // Used by Internaute to walk(). 
+    public Node getRandomOutNodeFrom(Node n) {
+	int[] outNodes = n.getOutNodesIDs();
+	if (outNodes.length==0) {
+	    System.err.println("End of the road! @ "+n);
+	    return null;
+	}
+	Random r = new Random(); 
+	int index = r.nextInt(outNodes.length);
+	System.out.println("outNodes size "+outNodes.length+" index "+index);
+	return nodeList.get(outNodes[index]);
     }
     
     // Prints outgoing arcs from each Node, with the probability for that arc
