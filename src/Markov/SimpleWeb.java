@@ -42,13 +42,13 @@ public class SimpleWeb {
     public Node getRandomOutNodeFrom(Node n) {
 	int[] outNodes = n.getOutNodesIDs();
 	if (outNodes.length==0) {
-	    System.err.println("End of the road! @ "+n);
+	    System.err.println("[getRandomOutNodeFrom] End of the road! @ "+n);
 	    return null;
 	}
 	Random r = new Random(); 
 	int index = r.nextInt(outNodes.length);
 	Node outNode=nodeList.get(outNodes[index]);
-	System.out.println(n.getID()+"->"+outNode.getID());
+	//System.out.println(n.getID()+"->"+outNode.getID());
 	return outNode;
     }
     

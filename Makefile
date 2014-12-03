@@ -24,6 +24,11 @@ doc : $(SRC)
 jar : $(SRC)
 	jar cvf $(JAR) .
 
+plot : ./Results/epsilons.txt
+	@echo Plotting..
+	@gnuplot plotConfig.txt
+	@echo Done
+
 clean : 
 	@echo "Cleaning..."
 	@echo "Removing temporary (*~) files..."

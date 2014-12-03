@@ -28,7 +28,7 @@ public class Internaute {
     
     public void trace(String filename) {
 	try {
-	    w = new FileWriter("./"+filename);
+	    w = new FileWriter("./Results/"+filename);
 	} catch (IOException e) {
 	    System.err.println("Error writing to file : ");
 	    e.printStackTrace();
@@ -62,9 +62,9 @@ public class Internaute {
 	    if (epsilons.containsKey(no)) {
 		Double epsi= Math.abs(epsilons.get(no)-put);
 		epsilons.put(no, epsi);
-		System.out.print("Epsilon "+epsi+" putting ");
+		//System.out.print("Epsilon "+epsi+" putting ");
 	    } else epsilons.put(no, put);
-	    System.out.println(put+" node "+no.getID()+" - "+i+" of "+steps);
+	    //System.out.println(put+" node "+no.getID()+" - "+i+" of "+steps);
 	    freq.put(no, put);
 	}
     }
@@ -75,25 +75,29 @@ public class Internaute {
 	boolean write=false;
 	if (w!=null) write=true;
 	while ( st < n && epsi>e && currentNode!=null) {
-	    // Statistically pick way to go
-	    // System.out.println(currentNode);
 	    currentNode=web.getRandomOutNodeFrom(currentNode);
 	    increment(currentNode);
 	    epsi = epsilons.get(currentNode);
-	    System.out.println("Epsilon: "+epsi);
+	    //	    System.out.println("Epsilon: "+epsi);
 	    steps++;
 	    st++;
+	    try {
+		if (write) w.write(st+ " "+epsi+"\n");
+	    } catch (IOException ioe) {
+		System.err.println("Write error!");
+		ioe.printStackTrace();
+	    }
 	}
 	System.out.print("Walk done ("+st+" steps). Attempting to write to file...");
-	/**	try {
+	try {
 	    w.close();
 	    System.out.println("\tOK");
 	} catch (IOException es) {
 	    System.err.println("\tFAIL");
 	    es.printStackTrace();
-	    }*/
+	}
     }
-
+    
     public void showFrequences() {
 	for (Map.Entry<Node, Double> en : freq.entrySet()) 
 	    System.out.println("Node "+en.getKey().getID()+" frequency: "+en.getValue());

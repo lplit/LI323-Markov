@@ -4,9 +4,9 @@ public class Main {
     public static void main(String[] args) {
 	NanoWeb w = NanoWeb.nanoWeb2();
 	Internaute bob = new Internaute(w);
-	bob.trace("exec.txt");
+	bob.trace("epsilons.txt");
 	bob.goTo(4);
-	bob.walk(1000, 0.1);
+	bob.walk(10, 0.001);
 	bob.showFrequences();
     }
 }
