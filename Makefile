@@ -1,6 +1,7 @@
 SRC = ./src/Markov/*.java
 BIN = ./bin/Markov/*.class
 JAR = stat.Markov-LeGoff-Rudek.jar
+GP = `which gnuplot`
 
 run : all
 	@echo "Running..."
@@ -26,7 +27,7 @@ jar : $(SRC)
 
 plot : ./Results/epsilons.txt
 	@echo Plotting..
-	@gnuplot plotConfig.txt
+	@$(GP) plotConfig.txt
 	@echo Done
 
 clean : 

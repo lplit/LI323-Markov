@@ -1,0 +1,6 @@
+set term png
+set output "./Results/plot.png"
+set title "Epsilon vs. Iterations"
+set ylabel "Epsilon"
+set xlabel "Iterations"
+plot './Results/epsilons.txt' with lines
