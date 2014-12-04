@@ -8,6 +8,7 @@ run : all
 	@mkdir -p ./bin
 	@mkdir -p ./Results
 	@java -cp ./bin Markov.Main
+	@make plot
 
 all : $(BIN)
 	@echo "Compiling..."

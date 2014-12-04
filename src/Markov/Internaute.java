@@ -43,6 +43,15 @@ public class Internaute {
 	updateFreq();
     }
 
+    public double getEpsiMax() {
+	double ret = 0.;
+	for (Map.Entry<Node, Double> m : epsilons.entrySet()) {
+	    if (m.getValue() > ret)
+		ret=m.getValue();
+	}
+	return ret;
+    }
+
     // Used within goTo as a way to update the visits hashmap
     private void increment(Node n) {
 	if (visits.containsKey(n))
@@ -60,10 +69,11 @@ public class Internaute {
 	    Integer i = en.getValue();
 	    Double put = ((double)i)/steps;
 	    if (epsilons.containsKey(no)) {
-		Double epsi= Math.abs(epsilons.get(no)-put);
+		Double epsi= Math.abs(freq.get(no)-put);
 		epsilons.put(no, epsi);
 		//System.out.print("Epsilon "+epsi+" putting ");
-	    } else epsilons.put(no, put);
+	    } else
+		epsilons.put(no, put);
 	    //System.out.println(put+" node "+no.getID()+" - "+i+" of "+steps);
 	    freq.put(no, put);
 	}
@@ -77,15 +87,16 @@ public class Internaute {
 	while ( st < n && epsi>e && currentNode!=null) {
 	    currentNode=web.getRandomOutNodeFrom(currentNode);
 	    increment(currentNode);
-	    epsi = epsilons.get(currentNode);
-	    //	    System.out.println("Epsilon: "+epsi);
+	    epsi = getEpsiMax();
 	    steps++;
 	    st++;
-	    try {
-		if (write) w.write(st+ " "+epsi+"\n");
-	    } catch (IOException ioe) {
-		System.err.println("Write error!");
-		ioe.printStackTrace();
+	    if (steps%50==0) {
+		try {
+		    if (write) w.write(st+ " "+getEpsiMax()+"\n");
+		} catch (IOException ioe) {
+		    System.err.println("Write error!");
+		    ioe.printStackTrace();
+		}
 	    }
 	}
 	System.out.print("Walk done ("+st+" steps). Attempting to write to file...");
@@ -97,9 +108,14 @@ public class Internaute {
 	    es.printStackTrace();
 	}
     }
-    
+
+    public void showEpsi() {
+	for (Map.Entry<Node, Double> en : epsilons.entrySet()) 
+	    System.out.println("Node "+en.getKey().getID()+" epsilon: "+en.getValue());
+    }
+
     public void showFrequences() {
 	for (Map.Entry<Node, Double> en : freq.entrySet()) 
-	    System.out.println("Node "+en.getKey().getID()+" frequency: "+en.getValue());
+	    System.out.println("Node "+en.getKey().getID()+" frequency: "+en.getValue()+" visits: "+ visits.get(en.getKey()));
     }
 }

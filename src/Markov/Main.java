@@ -6,7 +6,9 @@ public class Main {
 	Internaute bob = new Internaute(w);
 	bob.trace("epsilons.txt");
 	bob.goTo(4);
-	bob.walk(10, 0.001);
+	bob.walk(10000, 0.001);
 	bob.showFrequences();
+	bob.showEpsi();
+	w.showTransitionTable();
     }
 }

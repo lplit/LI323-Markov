@@ -66,10 +66,6 @@ public class SimpleWeb {
 	}
     }
 
-    public void printTransitionMatrix() {
-	
-    }
-
     public Node getNode(int i) {
 	try {
 	    return nodeList.get(i);
