@@ -5,6 +5,8 @@ GP = `which gnuplot`
 
 run : all
 	@echo "Running..."
+	@mkdir -p ./bin
+	@mkdir -p ./Results
 	@java -cp ./bin Markov.Main
 
 all : $(BIN)
