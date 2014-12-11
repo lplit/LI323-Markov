@@ -6,12 +6,14 @@ import java.util.Random;
 public class SimpleWeb {
     ArrayList<Node> nodeList;
     public static int maxNodes;
+    private double[][] matrix;
 
     public SimpleWeb(int max) {
 	nodeList=new ArrayList<Node>(max);
 	for (int i =0; i<max;i++) 
 	    nodeList.add(new Node(i));
 	maxNodes=max;
+	matrix=genMatrix();
     }
 
     public void addArc(int head, int tail) {
@@ -69,7 +71,7 @@ public class SimpleWeb {
 
     
     // Generates transitions matrix
-    public double[][] getMatrix() {
+    public double[][] genMatrix() {
 	double[][] ret = new double[maxNodes][maxNodes];
 	for ( double[] d : ret) 
 	    Arrays.fill(d, 0.);
@@ -84,12 +86,32 @@ public class SimpleWeb {
     }
 
     public void printMatrix() {
-	double[][] mat = getMatrix();
+	double[][] mat = genMatrix();
 	for(int i = 0 ; i<maxNodes ; i++) {
 	    for(int j = 0 ; j<maxNodes ; j++)
 		System.out.print(mat[i][j]+" | ");
 	    System.out.println();
 	}
+    }
+
+    public static void printMatrix(double[][] d) {
+	for(int i = 0 ; i<d.length ; i++) {
+	    for(int j = 0 ; j<d.length ; j++)
+		System.out.print(d[i][j]+" | ");
+	    System.out.println();
+	}
+    }
+
+    public double[][] matrixPow(int pow) {
+	int N = maxNodes;
+	double[][]mat = genMatrix();
+	double[][] ret = new double[N][N];
+	for (int p = 0 ; p < pow ; p++)
+	    for (int i = 0; i < N; i++)
+		for (int k = 0; k < N; k++)
+		    for (int j = 0; j < N; j++)
+			ret[i][j] += mat[i][k] * mat[k][j];
+	return ret;
     }
 
     public Node getNode(int i) {
@@ -100,4 +122,6 @@ public class SimpleWeb {
 	    return new Node(-1);
 	}
     }
+    
+    public double[][] getMatrix() { return matrix; }
 }

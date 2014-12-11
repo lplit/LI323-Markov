@@ -11,5 +11,7 @@ public class Main {
 	bob.showEpsi();
 	w.showTransitionTable();
 	w.printMatrix();
+	System.out.println("Test matrix power");
+	w.printMatrix(w.matrixPow(2));
     }
 }
