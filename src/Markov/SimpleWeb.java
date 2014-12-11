@@ -68,7 +68,6 @@ public class SimpleWeb {
 	    System.out.println(s.substring(0, (s.length()-2)));
 	}
     }
-
     
     // Generates transitions matrix
     public double[][] genMatrix() {
@@ -102,16 +101,42 @@ public class SimpleWeb {
 	}
     }
 
+    // Matrix power method
     public double[][] matrixPow(int pow) {
-	int N = maxNodes;
-	double[][]mat = genMatrix();
-	double[][] ret = new double[N][N];
-	for (int p = 0 ; p < pow ; p++)
-	    for (int i = 0; i < N; i++)
-		for (int k = 0; k < N; k++)
-		    for (int j = 0; j < N; j++)
-			ret[i][j] += mat[i][k] * mat[k][j];
+	double[][] mat = genMatrix();
+	double[][] ret = genMatrix();
+	for (int i = 1 ; i<pow ; i++) {
+	    ret = multiply(ret, mat);
+	}
 	return ret;
+    }
+    
+    // Multiply vector by matrix
+    public static double[] vectMatrix(double [] a , double [][] b ){
+	double[] ret = new double[a.length];
+	int columnsInB = b[0].length;
+	for (int i = 0 ; i<columnsInB ; i++) { // Columns
+	    for (int j = 0 ; j<a.length ; j++) { // Lines
+		ret[i] += b[j][i]*a[j];
+	    }
+	}
+	return ret;
+    }
+
+    // Matrix multiplication method
+    private static double[][] multiply(double[][] a, double[][] b) {
+	int rowsInA = a.length;
+	int columnsInA = a[0].length; // same as rows in B
+	int columnsInB = b[0].length;
+	double[][] c = new double[rowsInA][columnsInB];
+	for (int i = 0; i < rowsInA; i++) {
+	    for (int j = 0; j < columnsInB; j++) {
+		for (int k = 0; k < columnsInA; k++) {
+		    c[i][j] = c[i][j] + a[i][k] * b[k][j];
+		}
+	    }
+	}
+	return c;
     }
 
     public Node getNode(int i) {
@@ -122,6 +147,6 @@ public class SimpleWeb {
 	    return new Node(-1);
 	}
     }
-    
+
     public double[][] getMatrix() { return matrix; }
 }

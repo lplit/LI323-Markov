@@ -12,9 +12,8 @@ public class Internaute {
     private SimpleWeb web;
     private Node currentNode;
     private HashMap<Node, Integer> visits;
-    private HashMap<Node, Double> freq;
-    private HashMap<Node, Double> epsilons;
-    private HashMap<Node, Double> pi;
+    private HashMap<Node, Double> freq,	epsilons;
+    private double[] pi;
     private Writer w;
 
     public Internaute(SimpleWeb w) {
@@ -22,12 +21,13 @@ public class Internaute {
 	freq=new HashMap<Node, Double>();
 	visits=new HashMap<Node, Integer>();
 	epsilons=new HashMap<Node, Double>();
-	pi=new HashMap<Node, Double>();
+	pi=new double[web.maxNodes];
 	w = null;
 	currentNode=null;
 	steps=0;
     }
     
+    // Enables file output
     public void trace(String filename) {
 	try {
 	    w = new FileWriter("./Results/"+filename);
@@ -42,9 +42,11 @@ public class Internaute {
 	currentNode=web.getNode(n);
 	steps++;
 	increment(currentNode);
+	pi[n]=1;
 	updateFreq();
     }
 
+    
     public double getEpsiMax() {
 	double ret = 0.;
 	for (Map.Entry<Node, Double> m : epsilons.entrySet()) {
@@ -54,12 +56,13 @@ public class Internaute {
 	return ret;
     }
 
-    // Used within goTo as a way to update the visits hashmap
+    // Used within goTo as a way to update the visits, epsilons and freq hashmaps
     private void increment(Node n) {
 	if (visits.containsKey(n))
 	    visits.put(n, (visits.get(n)+1));
 	else 
 	    visits.put(n, 1);
+	pi=web.vectMatrix(pi, web.genMatrix());
 	updateFreq();
     }
 
@@ -117,5 +120,10 @@ public class Internaute {
     public void showFrequences() {
 	for (Map.Entry<Node, Double> en : freq.entrySet()) 
 	    System.out.println("Node "+en.getKey().getID()+" frequency: "+en.getValue()+" visits: "+ visits.get(en.getKey()));
+    }
+
+    public void showPi() {
+	for (double d : pi)
+	    System.out.println(d+" ");
     }
 }

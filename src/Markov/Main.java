@@ -13,5 +13,6 @@ public class Main {
 	w.printMatrix();
 	System.out.println("Test matrix power");
 	w.printMatrix(w.matrixPow(2));
+	bob.showPi();
     }
 }
