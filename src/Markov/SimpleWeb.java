@@ -1,4 +1,5 @@
 package Markov;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -63,6 +64,31 @@ public class SimpleWeb {
 		s+=" "+a.getTail()+" ("+pro+") |";
 	    }
 	    System.out.println(s.substring(0, (s.length()-2)));
+	}
+    }
+
+    
+    // Generates transitions matrix
+    public double[][] getMatrix() {
+	double[][] ret = new double[maxNodes][maxNodes];
+	for ( double[] d : ret) 
+	    Arrays.fill(d, 0.);
+	for (Node n : nodeList) {
+	    int nID = n.getID();
+	    for (Arc a : n.getOutArcs()) {
+		int tail = a.getTail();		
+		ret[nID][tail]=a.getProba();
+	    }
+	}
+	return ret;
+    }
+
+    public void printMatrix() {
+	double[][] mat = getMatrix();
+	for(int i = 0 ; i<maxNodes ; i++) {
+	    for(int j = 0 ; j<maxNodes ; j++)
+		System.out.print(mat[i][j]+" | ");
+	    System.out.println();
 	}
     }
 

@@ -8,7 +8,7 @@ run : all
 	@mkdir -p ./bin
 	@mkdir -p ./Results
 	@java -cp ./bin Markov.Main
-	@make plot
+	@make -s plot
 
 all : $(BIN)
 	@echo "Compiling..."
@@ -29,9 +29,9 @@ jar : $(SRC)
 	jar cvf $(JAR) .
 
 plot : ./Results/epsilons.txt
-	@echo Plotting..
+	@echo "Plotting..."
 	@$(GP) plotConfig.txt
-	@echo Done
+	@echo "Done"
 
 clean : 
 	@echo "Cleaning..."

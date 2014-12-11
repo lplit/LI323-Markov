@@ -10,5 +10,6 @@ public class Main {
 	bob.showFrequences();
 	bob.showEpsi();
 	w.showTransitionTable();
+	w.printMatrix();
     }
 }

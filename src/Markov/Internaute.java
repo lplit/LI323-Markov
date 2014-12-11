@@ -14,6 +14,7 @@ public class Internaute {
     private HashMap<Node, Integer> visits;
     private HashMap<Node, Double> freq;
     private HashMap<Node, Double> epsilons;
+    private HashMap<Node, Double> pi;
     private Writer w;
 
     public Internaute(SimpleWeb w) {
@@ -21,6 +22,7 @@ public class Internaute {
 	freq=new HashMap<Node, Double>();
 	visits=new HashMap<Node, Integer>();
 	epsilons=new HashMap<Node, Double>();
+	pi=new HashMap<Node, Double>();
 	w = null;
 	currentNode=null;
 	steps=0;
@@ -71,10 +73,8 @@ public class Internaute {
 	    if (epsilons.containsKey(no)) {
 		Double epsi= Math.abs(freq.get(no)-put);
 		epsilons.put(no, epsi);
-		//System.out.print("Epsilon "+epsi+" putting ");
 	    } else
 		epsilons.put(no, put);
-	    //System.out.println(put+" node "+no.getID()+" - "+i+" of "+steps);
 	    freq.put(no, put);
 	}
     }
