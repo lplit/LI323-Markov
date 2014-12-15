@@ -17,6 +17,7 @@ public class Arc {
 	tail=t;
     }
 
+    @Override
     public boolean equals(Object b) {
 	if (b instanceof Arc) {
 	    Arc a = (Arc) b;

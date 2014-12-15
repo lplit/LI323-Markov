@@ -8,6 +8,10 @@ public class SimpleWeb {
     public static int maxNodes;
     private double[][] matrix;
 
+    /****************************/
+    /** INSTANCING AND CONTROL **/
+    /****************************/
+
     public SimpleWeb(int max) {
 	nodeList=new ArrayList<Node>(max);
 	for (int i =0; i<max;i++) 
@@ -16,6 +20,7 @@ public class SimpleWeb {
 	matrix=genMatrix();
     }
 
+    // Add arc between node id=head and another node id=tail
     public void addArc(int head, int tail) {
 	if (head < maxNodes && tail < maxNodes) {
 	    try {
@@ -28,11 +33,6 @@ public class SimpleWeb {
 	}
     }
     
-    public void updateProbas() {
-	for (Node n : nodeList)
-	    n.updateProbas();
-    }
-    
     // Checks if node is present in nodeList
     public void contains(Arc a) throws ArcException {
 	for (Node n : nodeList) 
@@ -40,6 +40,23 @@ public class SimpleWeb {
 		throw new ArcException(a);
 	    }
     }
+
+    /*************/
+    /** GETTERS **/
+    /*************/
+
+    // Node getter by id
+    public Node getNode(int i) {
+	try {
+	    return nodeList.get(i);
+	} catch (IndexOutOfBoundsException e) {
+	    System.out.println("[getNode] Index "+i+" not available.");
+	    return new Node(-1);
+	}
+    }
+
+    // Matrix getter
+    public double[][] getMatrix() { return matrix; }
 
     // Used by Internaute to walk(). 
     public Node getRandomOutNodeFrom(Node n) {
@@ -51,22 +68,7 @@ public class SimpleWeb {
 	Random r = new Random(); 
 	int index = r.nextInt(outNodes.length);
 	Node outNode=nodeList.get(outNodes[index]);
-	//System.out.println(n.getID()+"->"+outNode.getID());
 	return outNode;
-    }
-    
-    // Prints outgoing arcs from each Node, with the probability for that arc
-    // as such: Outgoing arcs from node [0] | 1 (0.87). Which means that there exists
-    // an arc between nodes 0 and 1, with probability of 0.87.
-    void showTransitionTable() {
-	for (Node n : nodeList) {
-	    String s=("Outgoing arcs from node ["+n.getID()+"] |");
-	    for (Arc a : n.getOutArcs()) {
-		String pro = String.format("%.2f", a.getProba());
-		s+=" "+a.getTail()+" ("+pro+") |";
-	    }
-	    System.out.println(s.substring(0, (s.length()-2)));
-	}
     }
     
     // Generates transitions matrix
@@ -84,23 +86,53 @@ public class SimpleWeb {
 	return ret;
     }
 
+    /*******************/
+    /** PRINT METHODS **/
+    /*******************/
+
+    // Prints outgoing arcs from each Node, with the probability for that arc
+    // as such: "Outgoing arcs from node [0] | 1 (0.87)". Which means that there exists
+    // an arc between nodes 0 and 1, with probability of 0.87.
+    void showTransitionTable() {
+	for (Node n : nodeList) {
+	    String s=("Outgoing arcs from node ["+n.getID()+"] |");
+	    for (Arc a : n.getOutArcs()) {
+		String pro = String.format("%.2f", a.getProba());
+		s+=" "+a.getTail()+" ("+pro+") |";
+	    }
+	    System.out.println(s.substring(0, (s.length()-2)));
+	}
+    }
+
+    // Print method
     public void printMatrix() {
 	double[][] mat = genMatrix();
 	for(int i = 0 ; i<maxNodes ; i++) {
 	    for(int j = 0 ; j<maxNodes ; j++)
-		System.out.print(mat[i][j]+" | ");
+		System.out.format("%.4f | ", mat[i][j]);
 	    System.out.println();
 	}
     }
 
+    // Static version: matrix print
     public static void printMatrix(double[][] d) {
 	for(int i = 0 ; i<d.length ; i++) {
 	    for(int j = 0 ; j<d.length ; j++)
-		System.out.print(d[i][j]+" | ");
+		System.out.format("%.4f | ", d[i][j]);
 	    System.out.println();
 	}
     }
 
+    /******************/
+    /** MATH METHODS **/
+    /******************/
+
+    // Updates probabilities on nodes
+    public void updateProbas() {
+	for (Node n : nodeList)
+	    n.updateProbas();
+    }
+    
     // Matrix power method
     public double[][] matrixPow(int pow) {
 	double[][] mat = genMatrix();
@@ -139,14 +171,4 @@ public class SimpleWeb {
 	return c;
     }
 
-    public Node getNode(int i) {
-	try {
-	    return nodeList.get(i);
-	} catch (IndexOutOfBoundsException e) {
-	    System.out.println("[getNode] Index "+i+" not available.");
-	    return new Node(-1);
-	}
-    }
-
-    public double[][] getMatrix() { return matrix; }
 }

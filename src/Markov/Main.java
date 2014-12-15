@@ -11,8 +11,9 @@ public class Main {
 	bob.showEpsi();
 	w.showTransitionTable();
 	w.printMatrix();
-	System.out.println("Test matrix power");
-	w.printMatrix(w.matrixPow(2));
+	int pow = 10;
+	System.out.println("^this to power of "+pow);
+	w.printMatrix(w.matrixPow(pow));
 	bob.showPi();
     }
 }

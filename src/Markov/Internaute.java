@@ -16,6 +16,10 @@ public class Internaute {
     private double[] pi;
     private Writer w;
 
+    /****************************/
+    /** INSTANCING AND OPTIONS **/
+    /****************************/
+
     public Internaute(SimpleWeb w) {
 	web=w;
 	freq=new HashMap<Node, Double>();
@@ -37,6 +41,11 @@ public class Internaute {
 	}
     }
 
+
+    /******************/
+    /** STAT METHODS **/
+    /******************/
+
     // Go to node #n    
     public void goTo(int n) {
 	currentNode=web.getNode(n);
@@ -46,7 +55,7 @@ public class Internaute {
 	updateFreq();
     }
 
-    
+    // Question 5, basically.
     public double getEpsiMax() {
 	double ret = 0.;
 	for (Map.Entry<Node, Double> m : epsilons.entrySet()) {
@@ -111,6 +120,11 @@ public class Internaute {
 	    es.printStackTrace();
 	}
     }
+
+
+    /*******************/
+    /** PRINT METHODS **/
+    /*******************/
 
     public void showEpsi() {
 	for (Map.Entry<Node, Double> en : epsilons.entrySet()) 

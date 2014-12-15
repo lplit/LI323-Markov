@@ -4,7 +4,8 @@ public class NanoWeb extends SimpleWeb {
     public NanoWeb(int maxNode) {
 	super(maxNode);
     }
-    
+
+    // Representation of web1.
     public static NanoWeb nanoWeb1() {
 	NanoWeb n1 = new NanoWeb(10);
 	n1.addArc(0,1);
@@ -24,6 +25,7 @@ public class NanoWeb extends SimpleWeb {
 	return n1;
     }
 
+    // Representation of web2.
     public static NanoWeb nanoWeb2() {
 	NanoWeb n1 = new NanoWeb(10);
 	n1.addArc(0,9);
@@ -43,6 +45,7 @@ public class NanoWeb extends SimpleWeb {
 	return n1;
     }
 
+    // Representation of web1.
     public static NanoWeb nanoWeb3() {
 	NanoWeb n1 = new NanoWeb(10);
 	n1.addArc(0,1);
