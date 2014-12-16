@@ -17,6 +17,7 @@ public class InternauteMath implements Internaute {
 	maxNodes=web.getMaxNodes();
 	pi=new double[web.maxNodes];
 	epsilons=new double[web.maxNodes];
+	Arrays.fill(epsilons,9999.);
 	matrix = genMatrix();
 	w = null;
 	steps=-1;
@@ -27,6 +28,8 @@ public class InternauteMath implements Internaute {
 	trace(file);
     }
 
+
+    public void goTo(int i) { pi[i]=1; }
     public void trace(String filename) {
 	try {
 	    w = new FileWriter("./Results/"+filename);
@@ -35,6 +38,8 @@ public class InternauteMath implements Internaute {
 	    e.printStackTrace();
 	}
     }
+
+    public int getSteps() { return steps; }
     
     /******************/
     /** MATH METHODS **/
@@ -52,18 +57,14 @@ public class InternauteMath implements Internaute {
 	double epsi = 9999.;
 	if (w!=null) write=true;
 	while ( st++ < n && epsi>e) {
+	    if (epsi<e) System.out.println("Epsilon stop @ "+epsi);
 	    double [] curr =pi;
-	    pi=vectMatrix(pi, matrix);
-	    for (int i = 0 ; i<epsilons.length ; i++) {
-		double res = Math.abs(curr[i]-pi[i]);
-		if (epsilons[i] > res) {
-		    System.out.println("Replacing "+epsilons[i] + " by "+res);
-		    epsilons[i] = res;
-		}
-	    }
+	    pi=vectMatrix(pi, matrixPow(st));
+	    for (int i = 0 ; i<epsilons.length ; i++)
+		epsilons[i] = Math.abs(curr[i]-pi[i]);
 	    epsi = getEpsiMax();
 	    steps++;
-	    if (steps%50==0) {
+	    if (st%1==0) {
 		try {
 		    if (write) w.write(st+ " "+epsi+"\n");
 		} catch (IOException ioe) {
@@ -72,7 +73,7 @@ public class InternauteMath implements Internaute {
 		}
 	    }
 	}
-	System.out.print("Walk done ("+st+" steps). Attempting to write to file...");
+	System.out.print("[Math] Walk done ("+st+" steps). Attempting to write to file...");
 	try {
 	    w.close();
 	    System.out.println("\tOK");
@@ -149,22 +150,11 @@ public class InternauteMath implements Internaute {
 
     // Print method
     public void printMatrix() {
-	double[][] mat = genMatrix();
+	double[][]hueh=matrixPow(steps);
 	for(int i = 0 ; i<maxNodes ; i++) {
 	    for(int j = 0 ; j<maxNodes ; j++)
-		System.out.format("%.4f | ", mat[i][j]);
+		System.out.format("%.4f | ", hueh[i][j]);
 	    System.out.println();
 	}
     }
-
-    // Static version: matrix print
-    public static void printMatrix(double[][] d) {
-	for(int i = 0 ; i<d.length ; i++) {
-	    for(int j = 0 ; j<d.length ; j++)
-		System.out.format("%.4f | ", d[i][j]);
-	    System.out.println();
-	}
-    }
-
-	
 }

@@ -13,7 +13,6 @@ public class InternauteSimulation implements Internaute {
     private Node currentNode;
     private HashMap<Node, Integer> visits;
     private HashMap<Node, Double> freq,	epsilons;
-    private double[] pi;
     private Writer w;
 
     /****************************/
@@ -25,7 +24,6 @@ public class InternauteSimulation implements Internaute {
 	freq=new HashMap<Node, Double>();
 	visits=new HashMap<Node, Integer>();
 	epsilons=new HashMap<Node, Double>();
-	pi=new double[web.maxNodes];
 	w = null;
 	currentNode=null;
 	steps=-1;
@@ -58,7 +56,6 @@ public class InternauteSimulation implements Internaute {
 	currentNode=web.getNode(n);
 	steps++;
 	increment(currentNode);
-	pi[n]=1;
 	updateFreq();
     }
 
@@ -108,7 +105,7 @@ public class InternauteSimulation implements Internaute {
 	    epsi = getEpsiMax();
 	    steps++;
 	    st++;
-	    if (steps%50==0) {
+	    if (steps%10==0) {
 		try {
 		    if (write) w.write(st+ " "+getEpsiMax()+"\n");
 		} catch (IOException ioe) {
@@ -117,7 +114,7 @@ public class InternauteSimulation implements Internaute {
 		}
 	    }
 	}
-	System.out.print("Walk done ("+st+" steps). Attempting to write to file...");
+	System.out.print("[Simulation] Walk done ("+st+" steps). Attempting to write to file...");
 	try {
 	    w.close();
 	    System.out.println("\tOK");
@@ -139,12 +136,5 @@ public class InternauteSimulation implements Internaute {
     public void showFrequences() {
 	for (Map.Entry<Node, Double> en : freq.entrySet()) 
 	    System.out.println("Node "+en.getKey().getID()+" frequency: "+en.getValue()+" visits: "+ visits.get(en.getKey()));
-    }
-
-    public void showPi() {
-	System.out.println("Vector: ");
-	for (double d : pi)
-	    System.out.format("%.4f | ", d);
-	System.out.println();
     }
 }

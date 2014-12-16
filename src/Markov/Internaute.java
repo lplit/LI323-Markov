@@ -4,4 +4,5 @@ public interface Internaute {
     public double getEpsiMax();
     public void walk(int n, double e);
     public void showEpsi();
+    public void goTo(int n);
 }

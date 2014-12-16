@@ -30,15 +30,8 @@ jar : $(SRC)
 	jar cvf $(JAR) .
 
 plot : ./Results/*.txt
-	@rm -rf ./plotConfig.txt
-	@echo "set term png" >> plotConfig.txt
-	@echo "set output \"./Results/plot.png\"" >> plotConfig.txt
-	@echo "set title \"Epsilon vs. Iterations\"" >> plotConfig.txt
-	@echo "set ylabel \"Epsilon\"" >> plotConfig.txt
-	@echo "set xlabel \"Iterations\"" >> plotConfig.txt
-	@for f in $(wildcard ./Results/*.txt); do echo plot \'./Results/$$f\' with lines >> plotConfig.txt; done
 	@echo "Plotting..."
-	@$(GP) plotConfig.txt
+	@$(GP) ./plotConfig.txt
 	@echo "Done"
 
 clean : 
