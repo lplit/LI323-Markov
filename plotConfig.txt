@@ -3,4 +3,5 @@ set output "./Results/plot.png"
 set title "Epsilon vs. Iterations"
 set ylabel "Epsilon"
 set xlabel "Iterations"
-plot './Results/epsilons.txt' with lines
+plot './Results/./Results/math.txt' with lines
+plot './Results/./Results/simulation.txt' with lines

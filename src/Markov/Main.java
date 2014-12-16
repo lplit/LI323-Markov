@@ -1,19 +1,22 @@
 package Markov; 
-
 public class Main {
     public static void main(String[] args) {
-	NanoWeb w = NanoWeb.nanoWeb2();
-	Internaute bob = new Internaute(w);
-	bob.trace("epsilons.txt");
+	NanoWeb bobWeb = NanoWeb.nanoWeb2();
+	NanoWeb bobMathWeb = NanoWeb.nanoWeb2();
+	InternauteSimulation bob = new InternauteSimulation(bobWeb, "simulation.txt");
+	InternauteMath bobTheMathGuy = new InternauteMath(bobMathWeb, "math.txt");
 	bob.goTo(4);
-	bob.walk(10000, 0.001);
+	int steps = 10000;
+	double epsi = 0.001;
+
+	bob.walk(steps, epsi);
+	bobTheMathGuy.walk(steps, epsi);
+
 	bob.showFrequences();
 	bob.showEpsi();
-	w.showTransitionTable();
-	w.printMatrix();
-	int pow = 10;
+
+	int pow = bob.getSteps();
 	System.out.println("^this to power of "+pow);
-	w.printMatrix(w.matrixPow(pow));
 	bob.showPi();
     }
 }
