@@ -9,30 +9,42 @@ public class InternauteMath implements Internaute {
     private int steps, maxNodes;
     private SimpleWeb web;
     private double[][] matrix;
-    private double[] pi, epsilons;
-    private Writer w;
+    private double[] pi, epsilons, epsiVect;
+    private Writer vectMat, matPow;
+    
     
     public InternauteMath(SimpleWeb w) {
 	web=w;
 	maxNodes=web.getMaxNodes();
 	pi=new double[web.maxNodes];
 	epsilons=new double[web.maxNodes];
+	epsiVect=new double[web.maxNodes];
 	Arrays.fill(epsilons,9999.);
 	matrix = genMatrix();
 	w = null;
 	steps=-1;
     }
 
-    public InternauteMath(SimpleWeb w, String file) {
-	this(w);
-	trace(file);
+    public InternauteMath(SimpleWeb sw, String vector, String power) {
+	this(sw);
+	traceMat(vector);
+	tracePow(power);
     }
 
 
     public void goTo(int i) { pi[i]=1; }
-    public void trace(String filename) {
+    public void traceMat(String filename) {
 	try {
-	    w = new FileWriter("./Results/"+filename);
+	    vectMat = new FileWriter("./Results/"+filename);
+	} catch (IOException e) {
+	    System.err.println("Error writing to file : ");
+	    e.printStackTrace();
+	}
+    }
+
+    public void tracePow(String filename) {
+	try {
+	    matPow = new FileWriter("./Results/"+filename);
 	} catch (IOException e) {
 	    System.err.println("Error writing to file : ");
 	    e.printStackTrace();
@@ -44,29 +56,38 @@ public class InternauteMath implements Internaute {
     /******************/
     /** MATH METHODS **/
     /******************/
-    public double getEpsiMax() {
+    public double maxArray(double[] ep) {
 	double ret = 0.;
-	for (double d : epsilons)
+	for (double d : ep)
 	    if (d>ret) ret=d;
 	return ret;
     }
 
     public void walk(int n, double e) {
 	int st=0;
-	boolean write=false;
-	double epsi = 9999.;
-	if (w!=null) write=true;
-	while ( st++ < n && epsi>e) {
-	    if (epsi<e) System.out.println("Epsilon stop @ "+epsi);
-	    double [] curr =pi;
+	double [] vect = new double[pi.length];
+	System.arraycopy(pi, 0, vect, 0, pi.length);
+	boolean wMat=false, wPow=false;
+	double eVect = 9999., epsiPow=9999.;
+	if (vectMat!=null) wMat=true;
+	if (matPow!=null) wPow=true;
+	while ( st++ < n || (eVect>e && epsiPow>e)) {
+	    double [] curr=new double[pi.length], currVect=new double[vect.length];
+	    System.arraycopy(pi, 0, curr, 0, pi.length);
+	    System.arraycopy(vect, 0, currVect, 0, vect.length);
+	    vect=vectMatrix(vect, matrix);
 	    pi=vectMatrix(pi, matrixPow(st));
-	    for (int i = 0 ; i<epsilons.length ; i++)
+	    for (int i = 0 ; i<epsilons.length ; i++) {
 		epsilons[i] = Math.abs(curr[i]-pi[i]);
-	    epsi = getEpsiMax();
+		epsiVect[i] = Math.abs(currVect[i]-vect[i]);
+	    }
+	    eVect = maxArray(epsiVect);
+	    epsiPow = maxArray(epsilons);
 	    steps++;
-	    if (st%1==0) {
+	    if (st%5==0) {
 		try {
-		    if (write) w.write(st+ " "+epsi+"\n");
+		    if (wMat) vectMat.write(st+ " "+eVect+"\n");
+		    if (wPow) matPow.write(st+ " "+epsiPow+"\n");
 		} catch (IOException ioe) {
 		    System.err.println("Write error!");
 		    ioe.printStackTrace();
@@ -75,8 +96,10 @@ public class InternauteMath implements Internaute {
 	}
 	System.out.print("[Math] Walk done ("+st+" steps). Attempting to write to file...");
 	try {
-	    w.close();
-	    System.out.println("\tOK");
+	    vectMat.close();
+	    System.out.print("\tVector: OK");
+	    matPow.close();
+	    System.out.println(", Matrix: OK");
 	} catch (IOException es) {
 	    System.err.println("\tFAIL");
 	    es.printStackTrace();

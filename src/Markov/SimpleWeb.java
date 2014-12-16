@@ -39,6 +39,21 @@ public class SimpleWeb {
 	    }
     }
 
+    public static SimpleWeb generateRandomWeb(int nb) {
+	Random r = new Random();
+	SimpleWeb sw = new SimpleWeb(nb);
+	for (Node n : sw.getNodes()) {
+	    int head = n.getID();
+	    int outArcs = r.nextInt(nb)+1;
+	    while (outArcs == head) outArcs=r.nextInt(nb); // Avoid self loop
+	    for (int i = 0 ; i<outArcs ; i++) {
+		int tail = r.nextInt(nb);
+		sw.addArc(head, tail);
+	    }
+	}
+	return sw;
+    }
+
     /*************/
     /** GETTERS **/
     /*************/

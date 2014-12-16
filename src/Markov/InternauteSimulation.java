@@ -69,6 +69,13 @@ public class InternauteSimulation implements Internaute {
 	return ret;
     }
 
+    public double maxArray(double[] ep) {
+	double ret = 0.;
+	for (double d : ep)
+	    if (d>ret) ret=d;
+	return ret;
+    }
+
     // Used within goTo as a way to update the visits, epsilons and freq hashmaps
     private void increment(Node n) {
 	if (visits.containsKey(n))
@@ -105,7 +112,7 @@ public class InternauteSimulation implements Internaute {
 	    epsi = getEpsiMax();
 	    steps++;
 	    st++;
-	    if (steps%10==0) {
+	    if (steps%5==0) {
 		try {
 		    if (write) w.write(st+ " "+getEpsiMax()+"\n");
 		} catch (IOException ioe) {

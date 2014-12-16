@@ -1,7 +1,6 @@
 package Markov;
 public interface Internaute {
-    public void trace(String filename);
-    public double getEpsiMax();
+    public double maxArray(double[] ep);
     public void walk(int n, double e);
     public void showEpsi();
     public void goTo(int n);
