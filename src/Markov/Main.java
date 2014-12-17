@@ -17,14 +17,22 @@ public class Main {
 
 	    bob.goTo(go);
 	    bobTheMathGuy.goTo(go);
-
+	    
+	    Chrono ch = new Chrono();
 	    bob.walk(steps, epsi);
-	    bobTheMathGuy.walk(steps, epsi);
+	    System.out.print("[Simulation] ");
+	    ch.stop();
 
+	    Chrono ch2 = new Chrono();
+	    bobTheMathGuy.walk(steps, epsi);
+	    System.out.print("[Math] ");
+	    ch2.stop();
+
+	    System.out.println("Vector:");
 	    bobTheMathGuy.showEpsi();
+
 	    System.out.println("Matrix:");
 	    bobTheMathGuy.printMatrix();
-	    System.out.println("\n\n\n");
 	}
 	
 	SimpleWeb sw = SimpleWeb.generateRandomWeb(10);
