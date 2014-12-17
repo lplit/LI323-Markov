@@ -1,0 +1,10 @@
+set term png size 1920,1080
+set output "./Results/plot_nano3.png"
+set title "Epsilon vs. Iterations (NanoWeb3)"
+set ylabel "Epsilon"
+set xlabel "Iterations"
+set xrange [0:100]
+set yrange [0:0.6]
+plot './Results/nano3_simu.txt' with lines, \
+     './Results/nano3_matrix.txt' with lines, \
+     './Results/nano3_vect.txt' with lines
