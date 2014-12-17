@@ -26,9 +26,6 @@ $(BIN) : $(SRC)
 doc : $(SRC)
 	javadoc -private -charset utf-8 -sourcepath src/ -d doc-private/ Markov
 
-jar : $(SRC)
-	jar cvf $(JAR) .
-
 plot : ./Results/*.txt
 	@echo "Plotting nanoWeb1..."
 	@$(GP) ./plotNano1.txt

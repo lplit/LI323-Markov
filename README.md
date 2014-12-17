@@ -15,9 +15,6 @@ Makefile directives
 > doc 
   Compiles javadoc
 
-> jar
-  Creates a .JAR of project
-
 > plot 
   Plots all (nanoWeb[1,2,3])
 
