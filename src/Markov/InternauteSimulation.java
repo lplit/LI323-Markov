@@ -1,11 +1,9 @@
 package Markov;
-import java.util.ArrayList;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
-import java.io.FileWriter;
-import java.io.Writer;
-import java.io.IOException;
 
 public class InternauteSimulation implements Internaute {
     private int steps;
@@ -19,22 +17,39 @@ public class InternauteSimulation implements Internaute {
     /** INSTANCING AND OPTIONS **/
     /****************************/
 
+    /**
+     * Constructor
+     * @param w SimpleWeb
+     */
     public InternauteSimulation(SimpleWeb w) {
 	web=w;
 	freq=new HashMap<Node, Double>();
 	visits=new HashMap<Node, Integer>();
 	epsilons=new HashMap<Node, Double>();
+	/**	for (int i = 0 ; i <web.getMaxNodes();i++) {
+	    freq.put(new Node(-1), 0.);
+	    visits.put(new Node(-1), 0);
+	    epsilons.put(new Node(-1), 999999.);
+	    }**/
 	w = null;
 	currentNode=null;
 	steps=-1;
     }
 
+    /**
+     * Alternative Constructor with file output enabled
+     * @param w SimpleWeb
+     * @param file File to save 
+     */
     public InternauteSimulation(SimpleWeb w, String file) {
 	this(w);
 	trace(file);
     }
 
-    // Enables file output
+    /**
+     * Enables file output for simulations results, used by constructor, or separately.
+     * @param filename Filename to save
+     */
     public void trace(String filename) {
 	try {
 	    w = new FileWriter("./Results/"+filename);
@@ -45,6 +60,10 @@ public class InternauteSimulation implements Internaute {
     }
 
 
+    /**
+     * Steps field getter
+     * @return steps
+     */
     public int getSteps() { return steps; }
 
     /************************/
@@ -52,6 +71,9 @@ public class InternauteSimulation implements Internaute {
     /************************/
 
     // Go to node #n    
+    /* (non-Javadoc)
+     * @see Markov.Internaute#goTo(int)
+     */
     public void goTo(int n) {
 	currentNode=web.getNode(n);
 	steps++;
@@ -59,7 +81,11 @@ public class InternauteSimulation implements Internaute {
 	updateFreq();
     }
 
-    // Question 5, basically.
+    
+    /**
+     * Calculates the maximum value from epsilons hashmap
+     * @return Highest value stored in epsilons map
+     */
     public double getEpsiMax() {
 	double ret = 0.;
 	for (Map.Entry<Node, Double> m : epsilons.entrySet()) {
@@ -69,6 +95,9 @@ public class InternauteSimulation implements Internaute {
 	return ret;
     }
 
+    /* (non-Javadoc)
+     * @see Markov.Internaute#maxArray(double[])
+     */
     public double maxArray(double[] ep) {
 	double ret = 0.;
 	for (double d : ep)
@@ -76,7 +105,10 @@ public class InternauteSimulation implements Internaute {
 	return ret;
     }
 
-    // Used within goTo as a way to update the visits, epsilons and freq hashmaps
+    /**
+     * Used within goTo as a way to update the visits, epsilons and freq hashmaps
+     * @param n Node which values will be updated
+     */
     private void increment(Node n) {
 	if (visits.containsKey(n))
 	    visits.put(n, (visits.get(n)+1));
@@ -85,8 +117,11 @@ public class InternauteSimulation implements Internaute {
 	updateFreq();
     }
 
-    // Updates the freq hashtab with frequency (technically the probability)
-    // of visiting each node.
+
+    /**
+     * Updates the freq hashmap with frequency (technically the probability)
+     * of visiting each node.
+     */
     private  void updateFreq() {
 	for (Map.Entry<Node, Integer> en : visits.entrySet()) {
 	    Node no = en.getKey();
@@ -101,6 +136,9 @@ public class InternauteSimulation implements Internaute {
 	}
     }
 
+    /* (non-Javadoc)
+     * @see Markov.Internaute#walk(int, double)
+     */
     public void walk(int n, double e) {
 	int st=0;
 	double epsi=999999.;
@@ -112,7 +150,7 @@ public class InternauteSimulation implements Internaute {
 	    epsi = getEpsiMax();
 	    steps++;
 	    st++;
-	    if (steps%5==0) {
+	    if (steps%saveStep==0) {
 		try {
 		    if (write) w.write(st+ " "+getEpsiMax()+"\n");
 		} catch (IOException ioe) {
@@ -136,10 +174,13 @@ public class InternauteSimulation implements Internaute {
     /*******************/
 
     public void showEpsi() {
-	for (Map.Entry<Node, Double> en : epsilons.entrySet()) 
-	    System.out.println("Node "+en.getKey().getID()+" epsilon: "+en.getValue());
+	if (epsilons.isEmpty()) 
+	    System.out.println("[InternauteSimulation:showEpsi] Empty hashmap!"); 
+	else 
+	    for (Map.Entry<Node, Double> en : epsilons.entrySet()) 
+		System.out.println("Node "+en.getKey().getID()+" epsilon: "+en.getValue());
     }
-
+    
     public void showFrequences() {
 	for (Map.Entry<Node, Double> en : freq.entrySet()) 
 	    System.out.println("Node "+en.getKey().getID()+" frequency: "+en.getValue()+" visits: "+ visits.get(en.getKey()));

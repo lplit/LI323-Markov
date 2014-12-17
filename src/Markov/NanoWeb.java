@@ -58,7 +58,6 @@ public class NanoWeb extends SimpleWeb {
 	n1.addArc(6,7);
 	n1.addArc(7,8);
 	n1.addArc(8,7);
-	n1.addArc(8,7); // Here for the sake of testing the exceptions behaviour
 	return n1;
     }
 

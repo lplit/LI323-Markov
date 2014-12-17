@@ -1,7 +1,9 @@
 package Markov;
 
 public class ArcException extends Exception {
-    public ArcException(Arc a) {
+	private static final long serialVersionUID = 1L;
+
+	public ArcException(Arc a) {
 	super();
 	int h= a.getHead();
 	int t= a.getTail();

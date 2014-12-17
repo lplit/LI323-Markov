@@ -1,5 +1,4 @@
 package Markov;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -11,6 +10,10 @@ public class SimpleWeb {
     /** INSTANCING AND CONTROL **/
     /****************************/
 
+    /**
+     * Constructor, creates a {@link SimpleWeb} with given max number of nodes in it. 
+     * @param max Maximum number of nodes in this web.
+     */
     public SimpleWeb(int max) {
 	nodeList=new ArrayList<Node>(max);
 	for (int i =0; i<max;i++) 
@@ -18,7 +21,11 @@ public class SimpleWeb {
 	maxNodes=max;
     }
 
-    // Add arc between node id=head and another node id=tail
+    /**
+     * Add arc between node id=head and another node id=tail
+     * @param head Node ID from
+     * @param tail Node ID to
+     */
     public void addArc(int head, int tail) {
 	if (head < maxNodes && tail < maxNodes) {
 	    try {
@@ -31,7 +38,12 @@ public class SimpleWeb {
 	}
     }
     
-    // Checks if node is present in nodeList
+
+    /**
+     * To avoid double additions
+     * @param a Arc to check
+     * @throws ArcException Rises exception if this arc is already present in the web 
+     */
     public void contains(Arc a) throws ArcException {
 	for (Node n : nodeList) 
 	    if (n.getOutArcs().contains(a)) {
@@ -39,6 +51,11 @@ public class SimpleWeb {
 	    }
     }
 
+    /**
+     * Random {@link SimpleWeb} generator, with number of nodes.
+     * @param nb How many nodes will the web have
+     * @return {@link SimpleWeb} instance 
+     */
     public static SimpleWeb generateRandomWeb(int nb) {
 	Random r = new Random();
 	SimpleWeb sw = new SimpleWeb(nb);

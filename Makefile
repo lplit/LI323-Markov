@@ -30,8 +30,17 @@ jar : $(SRC)
 	jar cvf $(JAR) .
 
 plot : ./Results/*.txt
-	@echo "Plotting..."
-	@$(GP) ./plotConfig.txt
+	@echo "Plotting nanoWeb1..."
+	@$(GP) ./plotNano1.txt
+
+	@echo "Plotting nanoWeb2..."
+	@$(GP) ./plotNano2.txt
+
+	@echo "Plotting nanoWeb3..."
+	@$(GP) ./plotNano3.txt
+
+	@echo "Plotting random SimpleWeb..."
+	@$(GP) ./plotRandom.txt
 	@echo "Done"
 
 clean : 
@@ -44,6 +53,8 @@ clean :
 	@rm -rf $(JAR)
 	@echo "Removing JavaDoc..."
 	@rm -rf ./doc-private
+	@echo "Removing results..."
+	@rm -rf ./Results/
 	@echo "Done!"
 
 .PHONY : clean

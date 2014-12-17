@@ -1,9 +1,8 @@
 package Markov;
-import java.util.Arrays;
-import java.util.Random;
 import java.io.FileWriter;
-import java.io.Writer;
 import java.io.IOException;
+import java.io.Writer;
+import java.util.Arrays;
 
 public class InternauteMath implements Internaute {
     private int steps, maxNodes;
@@ -13,18 +12,28 @@ public class InternauteMath implements Internaute {
     private Writer vectMat, matPow;
     
     
+    /**
+     * Constructor method
+     * @param w SimpleWeb 
+     */
     public InternauteMath(SimpleWeb w) {
 	web=w;
 	maxNodes=web.getMaxNodes();
-	pi=new double[web.maxNodes];
-	epsilons=new double[web.maxNodes];
-	epsiVect=new double[web.maxNodes];
+	pi=new double[SimpleWeb.maxNodes];
+	epsilons=new double[SimpleWeb.maxNodes];
+	epsiVect=new double[SimpleWeb.maxNodes];
 	Arrays.fill(epsilons,9999.);
 	matrix = genMatrix();
 	w = null;
 	steps=-1;
     }
 
+    /**
+     * Constructor method with file tracking. 
+     * @param sw SimpleWeb
+     * @param vector Filename for vector epsilon tracking WITH extension ex. vector_trace.txt
+     * @param power Filename for matrix epsilon tracking WITH extension ex. matrix_trace.txt
+     */
     public InternauteMath(SimpleWeb sw, String vector, String power) {
 	this(sw);
 	traceMat(vector);
@@ -32,7 +41,15 @@ public class InternauteMath implements Internaute {
     }
 
 
+    /* (non-Javadoc)
+     * @see Markov.Internaute#goTo(int)
+     */
     public void goTo(int i) { pi[i]=1; }
+    
+    /**
+     * Enables file output for vector calculations, used by constructor, or separately.
+     * @param filename Filename to save
+     */
     public void traceMat(String filename) {
 	try {
 	    vectMat = new FileWriter("./Results/"+filename);
@@ -42,6 +59,10 @@ public class InternauteMath implements Internaute {
 	}
     }
 
+    /**
+     * Enables file output for matrix calculations, used by constructor, or separately.
+     * @param filename
+     */
     public void tracePow(String filename) {
 	try {
 	    matPow = new FileWriter("./Results/"+filename);
@@ -56,6 +77,9 @@ public class InternauteMath implements Internaute {
     /******************/
     /** MATH METHODS **/
     /******************/
+    /* (non-Javadoc)
+     * @see Markov.Internaute#maxArray(double[])
+     */
     public double maxArray(double[] ep) {
 	double ret = 0.;
 	for (double d : ep)
@@ -63,30 +87,50 @@ public class InternauteMath implements Internaute {
 	return ret;
     }
 
+    /* (non-Javadoc)
+     * @see Markov.Internaute#walk(int, double)
+     */
     public void walk(int n, double e) {
-	int st=0;
+	int st=0;//, saveStep=3;
 	double [] vect = new double[pi.length];
 	System.arraycopy(pi, 0, vect, 0, pi.length);
 	boolean wMat=false, wPow=false;
 	double eVect = 9999., epsiPow=9999.;
 	if (vectMat!=null) wMat=true;
 	if (matPow!=null) wPow=true;
-	while ( st++ < n || (eVect>e && epsiPow>e)) {
-	    double [] curr=new double[pi.length], currVect=new double[vect.length];
-	    System.arraycopy(pi, 0, curr, 0, pi.length);
+
+	// Vector loop
+	while ( st++ < n && eVect > e) {
+	    double [] currVect=new double[vect.length];
 	    System.arraycopy(vect, 0, currVect, 0, vect.length);
 	    vect=vectMatrix(vect, matrix);
+	    for (int i = 0 ; i<epsilons.length ; i++)
+		epsiVect[i] = Math.abs(currVect[i]-vect[i]);
+	    eVect = maxArray(epsiVect);
+	    if (st%saveStep==0) {
+		try {
+		    if (wMat) vectMat.write(st+ " "+eVect+"\n");
+		} catch (IOException ioe) {
+		    System.err.println("Write error!");
+		    ioe.printStackTrace();
+		}
+	    }
+	}
+	
+	st=0; // Reset for other loop.
+
+	// Matrix loop
+	while ( st++ < n && epsiPow>e) {
+	    double [] curr=new double[pi.length];
+	    System.arraycopy(pi, 0, curr, 0, pi.length);
 	    pi=vectMatrix(pi, matrixPow(st));
 	    for (int i = 0 ; i<epsilons.length ; i++) {
 		epsilons[i] = Math.abs(curr[i]-pi[i]);
-		epsiVect[i] = Math.abs(currVect[i]-vect[i]);
 	    }
-	    eVect = maxArray(epsiVect);
 	    epsiPow = maxArray(epsilons);
 	    steps++;
-	    if (st%5==0) {
+	    if (st%saveStep==0) {
 		try {
-		    if (wMat) vectMat.write(st+ " "+eVect+"\n");
 		    if (wPow) matPow.write(st+ " "+epsiPow+"\n");
 		} catch (IOException ioe) {
 		    System.err.println("Write error!");
@@ -95,7 +139,7 @@ public class InternauteMath implements Internaute {
 	    }
 	}
 	System.out.print("[Math] Walk done ("+st+" steps). Attempting to write to file...");
-	try {
+	try { // File output
 	    vectMat.close();
 	    System.out.print("\tVector: OK");
 	    matPow.close();
@@ -106,7 +150,12 @@ public class InternauteMath implements Internaute {
 	}
     }
 
-    // Matrix power method
+
+    /**
+     * Rises matrix to given power 
+     * @param pow Power to be risen to
+     * @return Matrix^pow
+     */
     public double[][] matrixPow(int pow) {
 	double[][] mat = genMatrix();
 	double[][] ret = genMatrix();
@@ -116,7 +165,13 @@ public class InternauteMath implements Internaute {
 	return ret;
     }
     
-    // Multiply vector by matrix
+   
+    /**
+     * Multiplies a vector by a matrix
+     * @param a Vector
+     * @param b Matrix
+     * @return [Vector]x[Matrix]
+     */
     public static double[] vectMatrix(double [] a , double [][] b ){
 	double[] ret = new double[a.length];
 	int columnsInB = b[0].length;
@@ -128,7 +183,13 @@ public class InternauteMath implements Internaute {
 	return ret;
     }
 
-    // Matrix multiplication method
+
+    /**
+     * Matrix multiplications
+     * @param a Matrix1
+     * @param b Matrix2 
+     * @return [Matrix1]x[Matrix2]
+     */
     private static double[][] multiply(double[][] a, double[][] b) {
 	int rowsInA = a.length;
 	int columnsInA = a[0].length; // same as rows in B
@@ -144,7 +205,10 @@ public class InternauteMath implements Internaute {
 	return c;
     }
 
-    // Generates transitions matrix
+    /**
+     * Generates the matrix, used by constructor.
+     * @return Transition matrix for current instance.
+     */
     public double[][] genMatrix() {
 	double[][] ret = new double[maxNodes][maxNodes];
 	for ( double[] d : ret) 
@@ -164,6 +228,9 @@ public class InternauteMath implements Internaute {
     /** PRINT METHODS **/
     /*******************/
 
+    /* (non-Javadoc)
+     * @see Markov.Internaute#showEpsi()
+     */
     public void showEpsi() {
 	System.out.println("Vector: ");
 	for (double d : pi)
@@ -171,7 +238,9 @@ public class InternauteMath implements Internaute {
 	System.out.println();
     }
 
-    // Print method
+    /**
+     * Matrix print to stdout
+     */
     public void printMatrix() {
 	double[][]hueh=matrixPow(steps);
 	for(int i = 0 ; i<maxNodes ; i++) {
